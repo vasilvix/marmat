@@ -1,0 +1,38 @@
+.marmat_item {
+  display: flex;
+  height: 100%;
+  width: 100%;
+}
+
+.marmat_item_image img {
+  border: 1px solid #eef2f4;
+  border-radius: 10px;
+  object-fit: contain;
+}
+
+.marmat_item_info {
+  height: 100%;
+  width: 100%;
+  padding-left: 10px;
+  justify-content: space-between;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: column;
+}
+
+.marmat_item_info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.description {
+  font-weight: 300;
+}
+
+.price {
+  margin-top: 0.25rem;
+  font-weight: 400;
+  color: #545c6a;
+  font-size: 18px;
+}

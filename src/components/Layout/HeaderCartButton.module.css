@@ -1,0 +1,52 @@
+.button {
+  cursor: pointer;
+  border: none;
+  background-color:  transparent;
+  color: #545c6a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 300;
+}
+
+.icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.badge {
+  padding: 3px;
+  background-color: #f54819;
+  border-radius: 30px;
+  margin-left: 2px;
+  margin-bottom: 20px;
+  color: #fff;
+  box-sizing: border-box;
+  min-width: 16px;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.bump {
+}
+
+@keyframes bump {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(0.9);
+  }
+  30% {
+    transform: scale(1.1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

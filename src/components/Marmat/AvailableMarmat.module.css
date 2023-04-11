@@ -1,0 +1,44 @@
+.marmat {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+
+  width: 90%;
+  margin: 2rem auto;
+  animation: marmat-appear 1s ease-out forwards;
+}
+
+.MarmatLoading {
+  text-align: center;
+  color: white;
+}
+
+.MarmatError {
+  text-align: center;
+  color: red;
+}
+
+.marmat ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.marmat li {
+  height: 100%;
+  padding: 10px;
+}
+
+@keyframes marmat-appear {
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
