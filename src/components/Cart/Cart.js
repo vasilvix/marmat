@@ -53,11 +53,6 @@ const Cart = (props) => {
                 }
         });
 
-        const tableBody = cartCtx.items.reduce((accumulator, item) => {
-            return accumulator + `[TR][TD][B]${item.name}[/B][/TD][TD]${item.amount} шт.[/TD][/TR]`;
-        }, '');
-        let taskDescription = `[TABLE]${tableBody}[/TABLE]`
-
         const productRows = cartCtx.items.map(item => {
             return {
                 'ownerId': dealId,
@@ -85,26 +80,7 @@ const Cart = (props) => {
                     'COMMENT': comment
                 }
             });
-            taskDescription += `[B]Комментарий[/B]: ${comment}`
         }
-
-        const taskAddRequest = await bx24.call('tasks.task.add', {
-            'fields': {
-                'TITLE': `Заказ МАРМАТ от ${user['LAST_NAME']} ${user['NAME']} ${user['SECOND_NAME']}`,
-                'DESCRIPTION': taskDescription,
-                'STATUS': 2,
-                'RESPONSIBLE_ID': responsibleId,
-                'CREATED_BY': user['ID'],
-                'UF_CRM_TASK': [`D_${dealId}`]
-            }
-        });
-
-        const dealUpdateRequest = await bx24.call('crm.deal.update', {
-            'id': dealId,
-            'fields': {
-                'STAGE_ID': 'C48:PREPARATION',
-            }
-        });
 
         setIsSubmitting(false);
         setDidSubmit(true);

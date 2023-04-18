@@ -25,12 +25,17 @@ const AvailableMarmat = () => {
             const loadedMarmat = [];
 
             productResponse.forEach(e => {
+                let imagesRaw = [];
+                if (e['PROPERTY_1244'] !== null) {
+                    imagesRaw = e['PROPERTY_1244'];
+                }
+
                 loadedMarmat.push({
                     id: e['ID'],
                     name: e['NAME'],
                     description: e['PROPERTY_2134'].value,
                     price: parseFloat(e['PRICE']),
-                    images: e['PROPERTY_1244'].map(i => i.value.showUrl)
+                    images: imagesRaw.map(i => i.value.showUrl)
                 });
             });
 
