@@ -7,7 +7,7 @@ import CartProvider from './store/CartProvider';
 import Marmat from './components/Marmat/Marmat';
 
 function App() {
-  const [catalog, setCatalog] = useState('');
+  const [catalogId, setCatalogId] = useState(0);
   const [cartIsShown, setCartIsShown] = useState(false);
 
   const showCartHandler = () => {
@@ -18,16 +18,11 @@ function App() {
     setCartIsShown(false);
   };
 
-  const customersCatalogSelectionHandler = () => {
-    setCatalog(() => 'customers');
+  const sectionSelectHandler = (id) => {
+    setCatalogId(() => id);
   }
-
-  const employeesCatalogSelectionHandler = () => {
-    setCatalog(() => 'employees');
-  }
-
   const headerClickHandler = () => {
-    setCatalog(() => '');
+    setCatalogId(() => 0);
   }
 
   return (
@@ -39,14 +34,13 @@ function App() {
       />
       <main>
         {
-          catalog === ''
+          catalogId === 0
           &&
           <MarmatStart
-            selectCustomerCatalog={customersCatalogSelectionHandler}
-            selectEmployeesCatalog={employeesCatalogSelectionHandler}
+            onSelectCatalog={sectionSelectHandler}
           />
         }
-        {catalog !== '' && <Marmat catalog={catalog} />}
+        {catalogId !== 0 && <Marmat catalog={catalogId} />}
       </main>
     </CartProvider>
   );

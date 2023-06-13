@@ -69,7 +69,7 @@ class BX24API {
     }
 
     async addMarmatOrder(items, comment) {
-        const responsibleId = 72;
+        const responsibleId = 2246;
         const user = await this.call('user.current');
         const dealId = await this.call('crm.deal.add', {
             'fields':
@@ -110,21 +110,10 @@ class BX24API {
         }
     }
 
-    async fetchMarmatItems(catalogType) {
-        let catalogId = '';
-        switch (catalogType) {
-            case 'customers':
-                catalogId = '7185'
-                break;
-            case 'employees':
-                catalogId = '7187'
-                break;
-            default:
-                catalogId = '7008'
-        }
+    async fetchMarmatItems(sectionId) {
         const productResponse = await this.call('crm.product.list', {
             'filter': {
-                'SECTION_ID': catalogId,
+                'SECTION_ID': sectionId,
                 "ACTIVE": "Y"
             },
             'select': [
@@ -144,6 +133,27 @@ class BX24API {
                 description: e['PROPERTY_2134'].value,
                 price: parseFloat(e['PRICE']),
                 images: imagesRaw.map(i => i.value.showUrl)
+            });
+        });
+        return items;
+    }
+
+    async fetchMarmatSections() {
+        let catalogId = '7008';
+        const sectionResponse = await this.call('crm.productsection.list', {
+            'filter': {
+                'SECTION_ID': catalogId,
+                'ACTIVE': 'Y'
+            },
+            'select': [
+                'ID', 'NAME'
+            ]
+        });
+        const items = [];
+        sectionResponse.forEach(e => {
+            items.push({
+                id: e['ID'],
+                name: e['NAME'],
             });
         });
         return items;
