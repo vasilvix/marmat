@@ -1,38 +1,72 @@
-.marmat_item {
-  display: flex;
-  height: 100%;
+.new-product {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: calc(calc(100% / 3) - 38px);
+  margin-left: 19px;
+  margin-right: 19px;
+  margin-top: 36px;
+  padding: 31px;
+  padding-top: 32px;
+  background: #FFFFFF;
+  border-radius: 20px;
+}
+
+.new-product__image {
+  display: inline-block;
+  width: 143px;
+  height: auto;
+}
+
+.new-product__image img {
+  display: block;
   width: 100%;
+  height: 198px;
+  border-radius: 5px;
+  object-fit: cover;
+
 }
 
-.marmat_item_image img {
-  border: 1px solid #eef2f4;
-  border-radius: 10px;
-  object-fit: contain;
+.new-product__info {
+  display: inline-block;
+  width: calc(100% - 143px);
+  padding-left: 25px;
 }
 
-.marmat_item_info {
-  height: 100%;
-  width: 100%;
-  padding-left: 10px;
-  justify-content: space-between;
-  display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
-}
 
-.marmat_item_info h3 {
-  margin: 0 0 0.25rem 0;
+.new-product__info h5 {
+  display: block;
+  font-family: "OpenSans", sans-serif;
+  font-weight: 800;
   font-size: 18px;
-  font-weight: 400;
+  line-height: 25px;
+  color: #0855B0;
 }
 
-.description {
-  font-weight: 300;
+.new-product__info p {
+  display: block;
+  margin-top: 10px;
+  font-family: "OpenSans", sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  color: #292929;
+
 }
 
-.price {
-  margin-top: 0.25rem;
-  font-weight: 400;
-  color: #545c6a;
+.new-product__info-price {
+  display: block;
+  margin-top: 10px;
+  font-family: 'Inter-Light', sans-serif;
+  font-weight: normal;
   font-size: 18px;
+  line-height: 22px;
+  color: #505050;
+}
+
+.new-product__info-price b {
+  display: inline;
+  font: inherit;
+  color: inherit;
+  font-size: 15px;
+  line-height: 18px;
 }

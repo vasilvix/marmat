@@ -1,4 +1,4 @@
-import React, {useContext, useState, useRef} from 'react';
+import React, { useContext, useState, useRef } from 'react';
 
 import bx24 from '../../bx24/bx24';
 
@@ -14,73 +14,27 @@ const Cart = (props) => {
 
     const commentInputRef = useRef();
 
-    const totalAmount = `${cartCtx.totalAmount.toFixed(2)} руб.`;
+    const totalAmount = `${cartCtx.totalAmount.toFixed(0)} ₽`;
     const hasItems = cartCtx.items.length > 0;
 
     const cartItemRemoveHandler = (id) => {
         cartCtx.removeItem(id);
     };
 
-    const cartItemAddHandler = (item) => {
-        cartCtx.addItem({...item, amount: 1});
+    const cartItemRemoveRowHandler = (id) => {
+        cartCtx.removeItemRow(id);
     };
 
-    const confirmHandler = (event) => {
-        event.preventDefault();
-
+    const cartItemAddHandler = (item) => {
+        cartCtx.addItem({ ...item, amount: 1 });
     };
 
     const submitOrderHandler = async (e) => {
         e.preventDefault();
-
-        const responsibleId = 72;
-
-        const comment = commentInputRef.current.value.trim();
-
         setIsSubmitting(true);
 
-        const user = await bx24.call('user.current');
-
-        const dealId = await bx24.call('crm.deal.add', {
-            'fields':
-                {
-                    'TITLE': `Заказ МАРМАТ от ${user['LAST_NAME']} ${user['NAME']} ${user['SECOND_NAME']}`,
-                    'TYPE_ID': 'GOODS',
-                    'OPENED': 'Y',
-                    'ASSIGNED_BY_ID': responsibleId,
-                    'CATEGORY_ID': 48,
-                    'UF_CRM_CREATED_BY': user['ID'],
-                }
-        });
-
-        const productRows = cartCtx.items.map(item => {
-            return {
-                'ownerId': dealId,
-                'ownerType': 'D',
-                'productId': item.id,
-                'productName': item.name,
-                'price': item.price,
-                'quantity': item.amount,
-                'taxRate': 0,
-                'taxIncluded': 'Y'
-            }
-        });
-
-        const productRowsSetRequest = await bx24.call('crm.item.productrow.set', {
-            'ownerType': 'D',
-            'ownerId': dealId,
-            'productRows': productRows
-        });
-
-        if (!!comment) {
-            const commentAddRequest = await bx24.call('crm.timeline.comment.add', {
-                'fields': {
-                    'ENTITY_ID': dealId,
-                    'ENTITY_TYPE': 'deal',
-                    'COMMENT': comment
-                }
-            });
-        }
+        const comment = commentInputRef.current.value.trim();
+        await bx24.addMarmatOrder(cartCtx.items, comment)
 
         setIsSubmitting(false);
         setDidSubmit(true);
@@ -88,7 +42,7 @@ const Cart = (props) => {
     };
 
     const cartItems = (
-        <ul className={classes['cart-items']}>
+        <div className={classes["new-cart__items"]}>
             {cartCtx.items.map((item) => (
                 <CartItem
                     key={item.id}
@@ -97,62 +51,90 @@ const Cart = (props) => {
                     price={item.price}
                     onRemove={cartItemRemoveHandler.bind(null, item.id)}
                     onAdd={cartItemAddHandler.bind(null, item)}
+                    onRemoveRow={cartItemRemoveRowHandler.bind(null, item.id)}
                 />
             ))}
-        </ul>
+        </div>
     );
 
     const cartModalContent = (
         <React.Fragment>
+            <h3>
+                Корзина
+            </h3>
             {cartItems}
-            <div className={classes.total}>
-                <span>Итого</span>
-                <span>{totalAmount}</span>
-            </div>
-            <form className={classes.form} onSubmit={confirmHandler}>
-                <div className={classes.control}>
-                    <label htmlFor='comment'>Комментарий</label>
-                    <textarea rows='3' cols='79' id='comment' ref={commentInputRef}/>
+            <div className={classes["new-cart__last"]}>
+                <div className={classes["cart-comment"]}>
+                    <span>
+                        Комментарий:
+                    </span>
+                    <textarea
+                        name=""
+                        id=""
+                        cols="30"
+                        rows="10"
+                        className={classes["new-input"]}
+                        ref={commentInputRef}
+                    >
+                    </textarea>
                 </div>
-                <div className={classes.actions}>
-                    <button type='button' onClick={props.onClose}>
-                        Отмена
+                <div className={classes["cart-summary"]}>
+                    <div className={classes["cart-summary__text"]}>
+                        <div className={classes["cart-summary__text-item"]}>
+                            <span>
+                                Итого:
+                            </span>
+                        </div>
+                        <div className={classes["cart-summary__text-item"]}>
+                            <b className={classes["cart-summary-price"]}>{totalAmount}</b>
+                        </div>
+                    </div>
+                    <button onClick={submitOrderHandler} className={classes["new-btn"]}>
+                        <span>
+                            Заказать
+                        </span>
                     </button>
-                    <button className={classes.submit} onClick={submitOrderHandler}>Заказать</button>
                 </div>
-            </form>
-        </React.Fragment>
-    );
-    const cartEmptyModalContent = (
-        <React.Fragment>
-            <div>Корзина пуста</div>
-            <div className={classes.actions}>
-                <button type='button' onClick={props.onClose}>
-                    Закрыть
-                </button>
             </div>
         </React.Fragment>
     );
 
-    const isSubmittingModalContent = <p>Создание заказа...</p>;
+    const cartEmptyModalContent = (
+        <div className={classes["cart-empty"]}>
+            <div className={classes["message-content"]}>Корзина пуста</div>
+            <div className={classes["button-wrapper"]}>
+                <button onClick={props.onClose} className={classes["new-btn"]}>
+                    <span>
+                        Закрыть
+                    </span>
+                </button>
+            </div>
+        </div>
+    );
+
+    const isSubmittingModalContent = <div className={classes["message-content"]}>Создание заказа...</div>;
 
     const didSubmitModalContent = (
-        <React.Fragment>
-            <p>Заказ успешно создан</p>
-            <div className={classes.actions}>
-                <button className={classes.button} onClick={props.onClose}>
-                    Закрыть
+        <div className={classes["cart-empty"]}>
+            <div className={classes["message-content"]}>Заказ успешно создан</div>
+            <div className={classes["button-wrapper"]}>
+                <button onClick={props.onClose} className={classes["new-btn"]}>
+                    <span>
+                        Закрыть
+                    </span>
                 </button>
             </div>
-        </React.Fragment>
+        </div>
     );
 
     return (
         <Modal onClose={props.onClose}>
-            {!isSubmitting && !didSubmit && hasItems && cartModalContent}
-            {!isSubmitting && !didSubmit && !hasItems && cartEmptyModalContent}
-            {isSubmitting && isSubmittingModalContent}
-            {!isSubmitting && didSubmit && didSubmitModalContent}
+            <div className={classes["new-cart"]}>
+                {!isSubmitting && !didSubmit && hasItems && cartModalContent}
+                {!isSubmitting && !didSubmit && !hasItems && cartEmptyModalContent}
+                {isSubmitting && isSubmittingModalContent}
+                {!isSubmitting && didSubmit && didSubmitModalContent}
+            </div>
         </Modal>
     );
 };

@@ -1,18 +1,30 @@
 .input {
-  display: flex;
-  align-items: center;
-  margin-bottom: 0.5rem;
-  flex-direction: row-reverse;
+  display: inline-block;
+  width: 44px;
+  height: 39px;
+  line-height: 39px;
+
+  padding-left: 0px;
+  padding-right: 0px;
+  border: 0px solid transparent !important;
+  outline: none !important;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-align: center !important;
+  background: transparent !important;
+  opacity: 1 !important;
+  color: #0855B0;
+
+  font-family: 'Inter', sans-serif;
+  font-weight: normal;
+  font-size: 18px;
 }
 
-.input label {
-  font-weight: 300;
-  margin-right: 1rem;
-}
-
-.input input {
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font: inherit;
-  padding-left: 0.5rem;
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  margin: 0;
 }

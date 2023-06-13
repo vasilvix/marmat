@@ -1,0 +1,69 @@
+.section-products {
+  display: flex;
+  width: 100%;
+  padding-top: 8px;
+  padding-bottom: 30px;
+}
+
+.section-products h1,
+.section-products h2,
+.section-products h3,
+.section-products h4,
+.section-products h5,
+.section-products h6 {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: normal;
+}
+
+.section-products h2 {
+  font-size: 60px;
+  line-height: 60px;
+}
+
+.section-products h3 {
+  font-size: 36px;
+  line-height: 36px;
+}
+
+.section-products h5 {
+  font-family: "OpenSans", sans-serif;
+  font-weight: 800;
+}
+
+.products-items {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.marmat_loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  font-size: 18px;
+}
+
+.marmat_error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  font-size: 18px;
+  color: red;
+}
+
+@keyframes marmat-appear {
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
