@@ -8,6 +8,12 @@ class BX24API {
         this.auth();
         const urlParams = new URLSearchParams(window.location.search);
         this.baseUrl = `https://${urlParams.get('DOMAIN')}`;
+
+        this.responsibleId = 2246;
+        this.dealCategoryId = 48;
+        this.rootSectionId = 7008;
+        this.descriptionFieldName = 'PROPERTY_2134';
+        this.imagePathFieldName = 'PROPERTY_1244';
     }
 
     async auth() {
@@ -69,7 +75,6 @@ class BX24API {
     }
 
     async addMarmatOrder(items, comment) {
-        const responsibleId = 2246;
         const user = await this.call('user.current');
         const dealId = await this.call('crm.deal.add', {
             'fields':
@@ -77,8 +82,8 @@ class BX24API {
                 'TITLE': `Заказ МАРМАТ от ${user['LAST_NAME']} ${user['NAME']}`,
                 'TYPE_ID': 'GOODS',
                 'OPENED': 'Y',
-                'ASSIGNED_BY_ID': responsibleId,
-                'CATEGORY_ID': 48,
+                'ASSIGNED_BY_ID': this.responsibleId,
+                'CATEGORY_ID': this.dealCategoryId,
                 'UF_CRM_CREATED_BY': user['ID'],
             }
         });
@@ -117,20 +122,19 @@ class BX24API {
                 "ACTIVE": "Y"
             },
             'select': [
-                'ID', 'NAME', 'PRICE', 'PROPERTY_2134', 'PROPERTY_1244'
+                'ID', 'NAME', 'PRICE', this.descriptionFieldName, this.imagePathFieldName
             ]
         });
         const items = [];
         productResponse.forEach(e => {
             let imagesRaw = [];
-            if (e['PROPERTY_1244'] !== null) {
-                imagesRaw = e['PROPERTY_1244'];
+            if (e[this.imagePathFieldName] !== null) {
+                imagesRaw = e[this.imagePathFieldName];
             }
-
             items.push({
                 id: e['ID'],
                 name: e['NAME'],
-                description: e['PROPERTY_2134'].value,
+                description: e[this.descriptionFieldName].value,
                 price: parseFloat(e['PRICE']),
                 images: imagesRaw.map(i => i.value.showUrl)
             });
@@ -139,10 +143,9 @@ class BX24API {
     }
 
     async fetchMarmatSections() {
-        let catalogId = '7008';
         const sectionResponse = await this.call('crm.productsection.list', {
             'filter': {
-                'SECTION_ID': catalogId,
+                'SECTION_ID': this.rootSectionId,
                 'ACTIVE': 'Y'
             },
             'select': [
