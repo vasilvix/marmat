@@ -18,7 +18,6 @@ const MarmatStart = (props) => {
     setIsLoading(true);
     bx24.fetchMarmatSections()
       .then((items) => {
-        console.log(items);
         setSections(() => items);
         setIsLoading(false);
       })
