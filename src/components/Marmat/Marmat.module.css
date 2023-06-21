@@ -1,7 +1,6 @@
 .section-products {
   display: flex;
   width: 100%;
-  padding-top: 8px;
   padding-bottom: 30px;
 }
 
@@ -32,11 +31,11 @@
 }
 
 .products-items {
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
+  display: grid;
   padding-left: 40px;
   padding-right: 40px;
+  margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
 }
 
 .marmat_loading {
@@ -54,6 +53,22 @@
   height: 80vh;
   font-size: 18px;
   color: red;
+}
+
+.arrow {
+  height: auto;
+  width: auto;
+  margin: 40px 0  0  59px;
+}
+
+.arrow:hover {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.arrow:hover path {
+  fill: #0855B0;
+  transition: all 0.3s ease;
 }
 
 @keyframes marmat-appear {

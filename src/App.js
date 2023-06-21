@@ -40,7 +40,13 @@ function App() {
             onSelectCatalog={sectionSelectHandler}
           />
         }
-        {catalogId !== 0 && <Marmat catalog={catalogId} />}
+        {
+          catalogId !== 0
+          && <Marmat
+            catalog={catalogId}
+            onArrowClick={headerClickHandler}
+          />
+        }
       </main>
     </CartProvider>
   );

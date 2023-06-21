@@ -1,12 +1,10 @@
 .new-product {
   display: inline-flex;
   flex-wrap: wrap;
-  width: calc(calc(100% / 3) - 38px);
   margin-left: 19px;
   margin-right: 19px;
   margin-top: 36px;
   padding: 31px;
-  padding-top: 32px;
   background: #FFFFFF;
   border-radius: 20px;
 }
@@ -22,7 +20,7 @@
   width: 100%;
   height: 198px;
   border-radius: 5px;
-  object-fit: cover;
+  object-fit: contain;
 
 }
 

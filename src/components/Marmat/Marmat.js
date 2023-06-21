@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import bx24 from '../../bx24/bx24';
 
 import MarmatItem from './MarmatItem/MarmatItem';
 import classes from './Marmat.module.css';
+import { ReactComponent as Arrow } from '../../assets/img/arrow.svg';
 
 const Marmat = (props) => {
     const [marmat, setMarmat] = useState([]);
@@ -51,11 +52,14 @@ const Marmat = (props) => {
     ));
 
     return (
-        <section className={classes["section-products"]}>
-            <div className={classes["products-items"]}>
-                {marmatList}
-            </div>
-        </section>
+        <Fragment>
+            <Arrow className={classes["arrow"]} onClick={props.onArrowClick} />
+            <section className={classes["section-products"]}>
+                <div className={classes["products-items"]}>
+                    {marmatList}
+                </div>
+            </section>
+        </Fragment>
     );
 };
 
