@@ -76,6 +76,7 @@ class BX24API {
 
     async addMarmatOrder(items, comment) {
         const user = await this.call('user.current');
+        const deliveryAddress = await this.fetchDeliveryAddress(user['ID']);
         const dealId = await this.call('crm.deal.add', {
             'fields':
             {
@@ -85,6 +86,8 @@ class BX24API {
                 'ASSIGNED_BY_ID': this.responsibleId,
                 'CATEGORY_ID': this.dealCategoryId,
                 'UF_CRM_CREATED_BY': user['ID'],
+                'UF_CRM_3741729383355': deliveryAddress,
+                'COMMENTS': comment
             }
         });
         const productRows = items.map(item => {
@@ -160,6 +163,28 @@ class BX24API {
             });
         });
         return items;
+    }
+
+    async fetchDeliveryAddress(userId) {
+        debugger;
+        const employee = await this.call(
+            'crm.item.list',
+            {
+                'entityTypeId': 185,
+                'filter': {
+                    'ufCrm99_1678714567': userId
+                }
+            });
+        console.log(employee);
+        const prinBranch = await this.call(
+            'crm.item.get',
+            {
+                'entityTypeId': 141,
+                'id': employee['items'][0]['parentId141']
+            }
+        );
+        const address = prinBranch['item']['ufCrm58_1666955726'];
+        return address;
     }
 }
 
