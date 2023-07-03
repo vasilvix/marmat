@@ -47,6 +47,7 @@ const Marmat = (props) => {
             name={item.name}
             description={item.description}
             price={item.price}
+            productQuantity={item.productQuantity}
             image={item.images.length > 0 ? item.images[0] : ''}
         />
     ));

@@ -1,12 +1,15 @@
 .new-product {
-  display: inline-flex;
-  flex-wrap: wrap;
   margin-left: 19px;
   margin-right: 19px;
   margin-top: 36px;
   padding: 31px;
   background: #FFFFFF;
   border-radius: 20px;
+}
+
+.new-product-info {
+  display: inline-flex;
+  flex-wrap: wrap;
 }
 
 .new-product__image {
@@ -67,4 +70,23 @@
   color: inherit;
   font-size: 15px;
   line-height: 18px;
+}
+
+.new-product-product-quantity {
+  padding-top: 5px;
+  color: #C8C8C8;
+  font-size: 12px;
+  text-align: center;
+}
+
+.not-in-stock {
+  color: #C8C8C8 !important;
+}
+
+.not-in-stock__text {
+  color: #C8C8C8;
+  font-size: 13px;
+  text-align: center;
+  width: 143px;
+  padding-top: 45px;
 }

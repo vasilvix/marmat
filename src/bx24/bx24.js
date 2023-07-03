@@ -14,6 +14,8 @@ class BX24API {
         this.rootSectionId = 7008;
         this.descriptionFieldName = 'PROPERTY_2134';
         this.imagePathFieldName = 'PROPERTY_1244';
+        this.productQuantity = 'PROPERTY_1052';
+        this.price = 'PROPERTY_1106';
     }
 
     async auth() {
@@ -24,13 +26,17 @@ class BX24API {
 
     // code for local tests
     // async call(method, params = {}) {
-    //     const response = await fetch(`https://domain.bitrix24.ru/rest/user/key/${method}`, {
+    //     await this.auth();
+    //     params.auth = this.session.ACCESS_TOKEN;
+
+    //     const response = await fetch(this.baseUrl + `/rest/${method}`, {
     //         method: 'POST',
     //         headers: {
-    //             "Content-Type": "application/json",
+    //             'Content-Type': 'application/json',
     //         },
     //         body: JSON.stringify(params),
     //     });
+
     //     if (!response.ok) {
     //         const responseData = await response.json();
     //         if ('error' in responseData) {
@@ -39,6 +45,7 @@ class BX24API {
     //             throw new Error('Connection error.');
     //         }
     //     }
+
     //     const responseData = await response.json();
     //     return responseData['result'];
     // }
@@ -122,10 +129,15 @@ class BX24API {
         const productResponse = await this.call('crm.product.list', {
             'filter': {
                 'SECTION_ID': sectionId,
-                "ACTIVE": "Y"
+                'ACTIVE': 'Y'
             },
             'select': [
-                'ID', 'NAME', 'PRICE', this.descriptionFieldName, this.imagePathFieldName
+                'ID',
+                'NAME',
+                this.descriptionFieldName,
+                this.imagePathFieldName,
+                this.productQuantity,
+                this.price,
             ]
         });
         const items = [];
@@ -138,8 +150,9 @@ class BX24API {
                 id: e['ID'],
                 name: e['NAME'],
                 description: e[this.descriptionFieldName].value,
-                price: parseFloat(e['PRICE']),
-                images: imagesRaw.map(i => i.value.showUrl)
+                productQuantity: parseInt(e[this.productQuantity].value),
+                price: parseFloat(e[this.price].value),
+                images: imagesRaw.map(i => i.value.showUrl),
             });
         });
         return items;
@@ -175,7 +188,6 @@ class BX24API {
                     'ufCrm99_1678714567': userId
                 }
             });
-        console.log(employee);
         const prinBranch = await this.call(
             'crm.item.get',
             {
